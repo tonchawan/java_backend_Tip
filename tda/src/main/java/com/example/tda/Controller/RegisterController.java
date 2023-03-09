@@ -39,8 +39,5 @@ public class RegisterController {
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
     }
-
-
 }
