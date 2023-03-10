@@ -32,12 +32,17 @@ public class RegisterController {
     }
 
     @PostMapping("/agent/login")
-    public ResponseEntity<Agent> login(@RequestBody Agent agent) {
-        Optional<Agent> opt = Optional.ofNullable(agentRepository.findByEmail(agent.getEmail()));
-        if (opt.isPresent()) {
-            return new ResponseEntity<>(opt.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> login(@RequestBody Agent agent) {
+        try {
+            Optional<Agent> opt = Optional.ofNullable(agentRepository.findByEmail(agent.getEmail()));
+            if (opt.isPresent()) {
+                return new ResponseEntity<>(opt.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
         }
     }
 }

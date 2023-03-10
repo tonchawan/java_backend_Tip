@@ -9,23 +9,31 @@ public class Order {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "order_package_id", nullable = false)
-    private Packages orderPackage;
+    @Column(name = "order_package_id")
+    private Integer orderPackage;
 
-    @ManyToOne
-    @JoinColumn(name = "agent_id")
-    private Agent agent;
+    @Column
+    (name = "agent_id")
+    private Integer agent;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @Column(name = "customer_id")
+    private Integer customer;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
+
+    public  Order( ){
+    }
+    public  Order(String comment , Integer orderPackage, Integer agent,Integer customer  ){
+        this.comment = comment;
+        this.orderPackage = orderPackage;
+        this.agent = agent;
+        this.customer = customer;
+
+    }
     public String getComment() {
         return comment;
     }
@@ -34,27 +42,27 @@ public class Order {
         this.comment = comment;
     }
 
-    public Packages getOrderPackage() {
+    public Integer getOrderPackage() {
         return orderPackage;
     }
 
-    public void setOrderPackage(Packages orderPackage) {
+    public void setOrderPackage(Integer orderPackage) {
         this.orderPackage = orderPackage;
     }
 
-    public Agent getAgent() {
+    public Integer getAgent() {
         return agent;
     }
 
-    public void setAgent(Agent agent) {
+    public void setAgent(Integer agent) {
         this.agent = agent;
     }
 
-    public Customer getCustomer() {
+    public Integer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Integer customer) {
         this.customer = customer;
     }
 
