@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.tda.entity.Customer;
-import com.example.tda.entity.Order;
 import com.example.tda.entity.Packages;
-import com.example.tda.repository.OrderRepository;
 import com.example.tda.repository.PackagesRepository;
 import com.example.tda.service.*;
 
@@ -27,41 +24,37 @@ import com.example.tda.service.*;
 public class PackagesController {
 
     @Autowired
-
-    private PackagesRepository packageRepository;
-    
+    private PackagesRepository packageRepository;  
     @GetMapping("/packages")
     public ResponseEntity<List<Packages>> getPackages() {
         List<Packages> packages = packageRepository.findAll();
         return new ResponseEntity<>(packages, HttpStatus.OK);
     }
 
-    @Autowired
-    private OrderRepository orderRepository;
     
-    @PostMapping("/buy")
-    public ResponseEntity<Order> order(@RequestBody Order order) {
+    @PostMapping("/packages")
+    public ResponseEntity<Packages> packages(@RequestBody Packages pack) {
         // Save the order to the database
 
-        Order ord =  orderRepository.save(order);
+        Packages packages =  packageRepository.save(pack);
         // Return a response with a success status code
-        return new ResponseEntity<>(ord, HttpStatus.OK);
+        return new ResponseEntity<>(packages, HttpStatus.OK);
     }
 
-    private final PdfGeneratorService pdfGeneratorService;
+    // private final PdfGeneratorService pdfGeneratorService;
 
-    public PackagesController(PdfGeneratorService pdfGeneratorService) {
-        this.pdfGeneratorService = pdfGeneratorService;
-    }
-    @GetMapping("/report/{id}")
-    public void generatePDF(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        response.setContentType("application/pdf");
-        // DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
-        // String currentDateTime = dateFormat.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Insurance-Policy(A4).pdf";
-        response.setHeader(headerKey, headerValue);
-        Order order = orderRepository.findById(id).get();
-        this.pdfGeneratorService.export(response, order);
-    }
+    // public PackagesController(PdfGeneratorService pdfGeneratorService) {
+    //     this.pdfGeneratorService = pdfGeneratorService;
+    // }
+    // @GetMapping("/report/{id}")
+    // public void generatePDF(HttpServletResponse response, @PathVariable Long id) throws IOException {
+    //     response.setContentType("application/pdf");
+    //     // DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+    //     // String currentDateTime = dateFormat.format(new Date());
+    //     String headerKey = "Content-Disposition";
+    //     String headerValue = "attachment; filename=Insurance-Policy(A4).pdf";
+    //     response.setHeader(headerKey, headerValue);
+    //     Order order = orderRepository.findById(id).get();
+    //     this.pdfGeneratorService.export(response, order);
+    // }
 }

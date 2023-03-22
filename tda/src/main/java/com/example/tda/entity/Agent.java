@@ -8,55 +8,70 @@ import java.util.Date;
 public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "register_id")
-    private Integer registerId;
+    @Column(name = "username" ,unique=true )
+    private String username;
 
+    @Column(name = "password",nullable=false)
+    private String password;
 
-    @Column(name = "type")
+    @Column(name = "type",nullable=false)
     private String type;
 
-    @Column(name = "prefix")
+    @Column(name = "prefix" ,nullable=false)
     private String prefix;
 
-    @Column(name = "first_name")
+    @Column(name = "name" ,nullable=false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname",nullable=false)
     private String lastName;
 
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "sub_district")
+    @Column(name = "sub_district",nullable=false)
     private String subDistrict;
 
-    @Column(name = "district")
+    @Column(name = "district",nullable=false)
     private String district;
 
-    @Column(name = "province")
+    @Column(name = "province",nullable=false)
     private String province;
 
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable=false )
     private String email;
 
-    @Column(name = "license_id")
+    @Column(name = "license_id", unique=true)
     private String licenseId;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "license_expire")
-    private Date licenseExpire;
+    @Column(name = "license_expire" ,nullable=false)
+    private String licenseExpire;
 
-    public Date getLicenseExpire() {
+    public Agent(){}
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public String getLicenseExpire() {
         return licenseExpire;
     }
 
-    public void setLicenseExpire(Date licenseExpire) {
+    public void setLicenseExpire(String licenseExpire) {
         this.licenseExpire = licenseExpire;
     }
 
@@ -108,14 +123,6 @@ public class Agent {
         this.subDistrict = subDistrict;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -148,15 +155,6 @@ public class Agent {
         this.type = type;
     }
 
-
-    public Integer getRegisterId() {
-        return registerId;
-    }
-
-    public void setRegisterId(Integer registerId) {
-        this.registerId = registerId;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -174,11 +172,9 @@ public class Agent {
         updateAt = new Date();
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "update_at")
     private Date updateAt;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "create_at")
     private Date createAt;
 

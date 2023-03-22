@@ -7,6 +7,11 @@ import java.util.Date;
 @Table(name = "packages")
 public class Packages {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Column(name = "id", nullable = false)
+    private Integer id;
+
     @Column(name = "premium")
     private String premium;
 
@@ -16,10 +21,7 @@ public class Packages {
     @Column(name = "title")
     private String title;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    public Packages(){}
 
     public String getPremium() {
         return premium;
@@ -63,11 +65,9 @@ public class Packages {
         updateAt = new Date();
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "update_at")
     private Date updateAt;
-
-    @Temporal(TemporalType.DATE)
+  
     @Column(name = "create_at")
     private Date createAt;
 
@@ -86,4 +86,6 @@ public class Packages {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+    
 }
