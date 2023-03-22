@@ -2,6 +2,7 @@ package com.example.tda.Controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,6 +41,19 @@ public class PackagesController {
         // Return a response with a success status code
         return new ResponseEntity<>(packages, HttpStatus.OK);
     }
+
+         // Get order by id
+         @GetMapping("/packages/{id}")
+         public ResponseEntity<Object> getUserById(@PathVariable("id") Integer id) {
+             try {
+                 Optional<Packages> order = packageRepository.findById(id);
+                 return new ResponseEntity<>(order.get(), HttpStatus.OK);
+             } catch (Exception e) {
+                 return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
+             }
+         }
+
+
 
     // private final PdfGeneratorService pdfGeneratorService;
 

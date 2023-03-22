@@ -19,7 +19,6 @@ import com.example.tda.Controller.OrdersController;
 public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
-	private final PdfGeneratorService pdfGeneratorService;
 
     @Value("${spring.mail.username}") private String sender;
 
@@ -53,7 +52,7 @@ public class EmailService {
 
 			// Adding the attachment
 			FileSystemResource file
-				= new FileSystemResource(new File(PdfGeneratorService.class.export()));
+				= new FileSystemResource(new File());
 
 
 			mimeMessageHelper.addAttachment(
