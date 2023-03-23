@@ -1,6 +1,7 @@
 package com.example.tda.Controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tda.service.PdfGeneratorService;
-import com.example.tda.entity.Order;
-import com.example.tda.repository.OrderRepository;
+import com.example.tda.entity.*;
+import com.example.tda.repository.*;
 import com.example.tda.service.*;
+
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -35,6 +37,9 @@ public class OrdersController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private PackagesRepository packagesRepository;    
 
     // Get all order
     @GetMapping("/orders")
@@ -70,7 +75,12 @@ public class OrdersController {
     @PostMapping("/buy")
     public ResponseEntity<Order> order(@RequestBody Order order) {
         order.setOrderStatus(1); // Set the order status to 1
+        Date date1 = new Date();
+        order.setUpdatedAt(date1);
+        order.setCreatedAt(date1);
         Order ord =  orderRepository.save(order); // Save the order to the database
+        Packages packages = packagesRepository.findById(ord.getPackageId()).get();
+        emailService.sendMailWithAttachment("tonchawan@hotmail.com", "Your Package", "Thankyou for purchase","y",ord,packages );
         return new ResponseEntity<>(ord, HttpStatus.OK);  // Return a response with a success status code
     }
 
@@ -140,6 +150,7 @@ public class OrdersController {
             if (data.get("orderStatus") != null) {
                 user.setOrderStatus((int) 1);
             }
+            user.setUpdatedAt(new Date());
             orderRepository.save(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
@@ -150,12 +161,23 @@ public class OrdersController {
 
      // Create Order
      @PostMapping("/draft")
-     public ResponseEntity<Object> putDraf(
+     public ResponseEntity<Order> draft(@RequestBody Order order) {
+        order.setOrderStatus(0); // Set the order status to 0
+        Date date1 = new Date();
+        order.setUpdatedAt(date1);
+        order.setCreatedAt(date1);
+         Order ord =  orderRepository.save(order); // Save the order to the database        
+         return new ResponseEntity<>(ord, HttpStatus.OK); // Return a response with a success status code
+            
+     }
+
+    // Update draft (user the same method as update order )
+    @RequestMapping(value = "/draft/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> putDraf(
         @RequestBody HashMap<String, String> data,
         @PathVariable("id") Integer id) {
     try {
         Optional<Order> opt = orderRepository.findById(id);
-    System.out.println(data);
         Order user = opt.get();
         if (data.get("agentId") != null) {
             user.setAgentId(Integer.parseInt( data.get("agentId")));
@@ -214,19 +236,12 @@ public class OrdersController {
         if (data.get("orderStatus") != null) {
             user.setOrderStatus((int) 0);
         }
+        user.setUpdatedAt(new Date());
         orderRepository.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     } catch (Exception e) {
         return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
     }
-}
-
-private Integer getInteger(HashMap<String, Object> data, String key, Integer defaultValue) {
-    return data.containsKey(key) ? (Integer) data.get(key) : defaultValue;
-}
-
-private String getString(HashMap<String, Object> data, String key, String defaultValue) {
-    return data.containsKey(key) ? (String) data.get(key) : defaultValue;
 }
 
 private final PdfGeneratorService pdfGeneratorService;
@@ -242,13 +257,16 @@ public void generatePDF(HttpServletResponse response, @PathVariable Integer id) 
     String headerValue = "attachment; filename=Insurance-Policy(A4).pdf";
     response.setHeader(headerKey, headerValue);
     Order order = orderRepository.findById(id).get();
-    this.pdfGeneratorService.export(response, order);
+    Packages packages = packagesRepository.findById(order.getPackageId()).get();
+    this.pdfGeneratorService.export(response, order, packages);
 
     }
 
-@GetMapping("/mailPDf")
-public void sendEmailPdf()throws IOException {
-    emailService.sendMailWithAttachment(1,"tonchawan@hotmail.com", "test", "Tester", "attachment");
+@GetMapping("/mailPDf/{id}")
+public void sendEmailPdf(@PathVariable Integer id)throws IOException {
+    Order order = orderRepository.findById(id).get();
+    Packages packages = packagesRepository.findById(order.getPackageId()).get();
+    emailService.sendMailWithAttachment("tonchawan@hotmail.com", "Your Package", "Thankyou for purchase","y",order,packages );
 
 }
 

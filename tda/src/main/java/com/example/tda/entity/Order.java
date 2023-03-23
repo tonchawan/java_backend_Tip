@@ -11,7 +11,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    private Date updatedAt;
+  
+    private Date createdAt;
+
+	@Column
     (name = "agent_id")
     private Integer agentId;
 
@@ -59,12 +63,6 @@ public class Order {
 
     @Column(name = "end_date")
     private String endDate;
-   
-    @Column(name = "update_at")
-    private Date updateAt;
-
-    @Column(name = "create_at")
-    private Date createAt;
 
     @Column(name = "benefiaial")
     private String benefiaial;
@@ -72,31 +70,29 @@ public class Order {
     @Column(name = "order_status")
     private Integer orderStatus;
 
-    public Order(Integer agentId, Integer packageId, String prefix, String firstName, String lastName, String identity,
-            String address, String subDistrict, String district, String province, String zipCode, String phone,
-            String email, String dob, String startDate, String endDate, Date updateAt, Date createAt,
-            String benefiaial, Integer orderStatus) {
-        this.agentId = agentId;
-        this.packageId = packageId;
-        this.prefix = prefix;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.identity = identity;
-        this.address = address;
-        this.subDistrict = subDistrict;
-        this.district = district;
-        this.province = province;
-        this.zipCode = zipCode;
-        this.phone = phone;
-        this.email = email;
-        this.dob = dob;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.updateAt = updateAt;
-        this.createAt = createAt;
-        this.benefiaial = benefiaial;
-        this.orderStatus = orderStatus;
-    }
+    // public Order(Integer agentId, Integer packageId, String prefix, String firstName, String lastName, String identity,
+    //         String address, String subDistrict, String district, String province, String zipCode, String phone,
+    //         String email, String dob, String startDate, String endDate,
+    //         String benefiaial, Integer orderStatus) {
+    //     this.agentId = agentId;
+    //     this.packageId = packageId;
+    //     this.prefix = prefix;
+    //     this.firstName = firstName;
+    //     this.lastName = lastName;
+    //     this.identity = identity;
+    //     this.address = address;
+    //     this.subDistrict = subDistrict;
+    //     this.district = district;
+    //     this.province = province;
+    //     this.zipCode = zipCode;
+    //     this.phone = phone;
+    //     this.email = email;
+    //     this.dob = dob;
+    //     this.startDate = startDate;
+    //     this.endDate = endDate;
+    //     this.benefiaial = benefiaial;
+    //     this.orderStatus = orderStatus;
+    // }
 
     public Order() {
         super();
@@ -237,22 +233,6 @@ public class Order {
         this.endDate = endDate;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
     public String getBenefiaial() {
         return benefiaial;
     }
@@ -269,15 +249,35 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    // for auto generate Create Update
-    @PrePersist
-    public void prePersist() {
-        createAt=new Date();
-    }
+    public Date getUpdatedAt() {
+		return updatedAt;
+	}
 
-    @PostUpdate
-    public void postUpdate() {
-        updateAt = new Date();
-    }
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+    // for auto generate Create Update
+    
+    
+    
+
+    // @PrePersist
+    // public void prePersist() {
+    //     this.createdAt =new Date();
+    // }
+
+    // @PostUpdate
+    // public void postUpdate() {
+    //     this.updatedAt = new Date();
+    // }
 }
 

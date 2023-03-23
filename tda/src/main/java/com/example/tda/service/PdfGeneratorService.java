@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import com.example.tda.entity.Order;
+import com.example.tda.entity.Packages;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -17,20 +18,24 @@ import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 
 @Service
 public class PdfGeneratorService {
-        public void export(HttpServletResponse response, Order order) throws DocumentException, IOException {
+        public void export(HttpServletResponse response, Order order,Packages packages) throws DocumentException, IOException {
                 Document document = new Document(PageSize.A4);
 
+                 //Assume that the fonts is folder which contains all the fonts you want to use it
+                FontFactory.register("D:/sei/project/Final_Tip/java_backend_Tip/tda/src/main/resources/static/THSarabunNew.ttf", "thsaraban");
+                
                 PdfWriter.getInstance(document, response.getOutputStream());
                 document.open();
                 // Font size for Header
-                Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+                Font fontTitle = FontFactory.getFont("thsaraban", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 fontTitle.setSize(22);
                 // Font size for normal text
-                Font fontNormal = FontFactory.getFont(FontFactory.HELVETICA);
+                Font fontNormal = FontFactory.getFont("thsaraban", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 fontNormal.setSize(15);
                 // Header
                 Paragraph header = new Paragraph("Insurance", fontTitle);
@@ -39,43 +44,37 @@ public class PdfGeneratorService {
                 header.setSpacingAfter(50);
 
                 Paragraph customerDetail = new Paragraph("Customer Detail", fontTitle);
-                Paragraph firstname = new Paragraph("FirstName :  " + order.getFirstName() + Chunk.NEWLINE, fontNormal);
+                Paragraph firstName = new Paragraph("FirstName :  " + order.getFirstName() + Chunk.NEWLINE, fontNormal);
 
-                // Paragraph lastname = new Paragraph("LastName :  " + order.getLastname() + Chunk.NEWLINE, fontNormal);
+                Paragraph lastName = new Paragraph("LastName :  " + order.getLastName() + Chunk.NEWLINE, fontNormal);
 
-                // Paragraph citizen_id = new Paragraph("Citizen Id :  " + order.getCitizen_id() + Chunk.NEWLINE,
-                //                 fontNormal);
+                Paragraph identity = new Paragraph("Identity :  " + order.getIdentity() + Chunk.NEWLINE,
+                                fontNormal);
 
-                // Paragraph email = new Paragraph("Email :  " + order.getEmail() + Chunk.NEWLINE, fontNormal);
-                // Paragraph phone_number = new Paragraph("Phone Number :  " + order.getPhone_number() + Chunk.NEWLINE,
-                //                 fontNormal);
+                Paragraph email = new Paragraph("Email :  " + order.getEmail() + Chunk.NEWLINE, fontNormal);
+                Paragraph phone = new Paragraph("Phone Number :  " + order.getPhone() + Chunk.NEWLINE,
+                                fontNormal);
 
-                // Paragraph addressDetail = new Paragraph("Address Detail", fontTitle);
+                Paragraph dob = new Paragraph("Date of birth :  " + order.getDob() + Chunk.NEWLINE,fontNormal);
 
-                // Paragraph address_house = new Paragraph(
-                //                 "House Number :  " + order.getaddress_house_number() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_moo = new Paragraph(
-                //                 "Moo :  " + order.getAddress_moo() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_village = new Paragraph(
-                //                 "Building/Village :  " + order.getAddress_village() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_soi = new Paragraph(
-                //                 "Soi :  " + order.getAddress_soi() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_road = new Paragraph(
-                //                 "Road :  " + order.getAddress_road() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_amphur = new Paragraph(
-                //                 "Amphur :  " + order.getAddress_amphur() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_tumbon = new Paragraph(
-                //                 "Tombon :  " + order.getAddress_tumbon() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph address_province = new Paragraph(
-                //                 "Province :  " + order.getAddress_province() + Chunk.NEWLINE,
-                //                 fontNormal);
+
+                Paragraph addressDetail = new Paragraph("Address Detail", fontTitle);
+
+                Paragraph address = new Paragraph(
+                                "House Number :  " + order.getAddress() + Chunk.NEWLINE,
+                                fontNormal);
+                Paragraph subDistrict = new Paragraph(
+                                "Sub District :  " + order.getSubDistrict() + Chunk.NEWLINE,
+                                fontNormal);
+                Paragraph district = new Paragraph(
+                                "District :  " + order.getDistrict() + Chunk.NEWLINE,
+                                fontNormal);
+                Paragraph province = new Paragraph(
+                                "Province :  " + order.getProvince() + Chunk.NEWLINE,
+                                fontNormal);
+                Paragraph zipCode = new Paragraph(
+                                "Zip Code :  " + order.getZipCode() + Chunk.NEWLINE,
+                                fontNormal);
                 // Paragraph address_zipcode = new Paragraph(
                 //                 "Zipcode :  " + order.getAddress_zipcode() + Chunk.NEWLINE,
                 //                 fontNormal);
@@ -86,43 +85,40 @@ public class PdfGeneratorService {
 
                 // Paragraph plan_desc = new Paragraph("Description :  " + order.getPlan().getDesc() + Chunk.NEWLINE,
                 //                 fontNormal);
+                Paragraph premium = new Paragraph("Price :  " + packages.getPremium()+ Chunk.NEWLINE,
+                                fontNormal);
 
-                // Paragraph plan_price = new Paragraph("Price :  " + order.getPlan().getPrice() + Chunk.NEWLINE,
-                //                 fontNormal);
+                Paragraph benefiaial = new Paragraph("Beneficial :  " + order.getBenefiaial()+ Chunk.NEWLINE,
+                                fontNormal);
 
                 // Paragraph plan_coverage = new Paragraph("Coverage :  " + order.getPlan().getCoverage() + Chunk.NEWLINE,
                 //                 fontNormal);
-                // Paragraph start = new Paragraph("Start Date :  " + order.getCover_start_date() + Chunk.NEWLINE,
-                //                 fontNormal);
-                // Paragraph end = new Paragraph("End Date :  " + order.getCover_end_date() + Chunk.NEWLINE,
-                //                 fontNormal);
+                Paragraph startDate = new Paragraph("Start Date :  " + order.getStartDate() + Chunk.NEWLINE,
+                                fontNormal);
+                Paragraph endDate = new Paragraph("End Date :  " + order.getEndDate() + Chunk.NEWLINE,
+                                fontNormal);
 
                 document.add(header);
                 document.add(customerDetail);
-                document.add(firstname);
-                // document.add(lastname);
-                // document.add(citizen_id);
-                // document.add(email);
-                // document.add(phone_number);
 
-                // document.add(addressDetail);
-                // document.add(address_house);
-                // document.add(address_moo);
-                // document.add(address_village);
-                // document.add(address_soi);
-                // document.add(address_road);
-                // document.add(address_amphur);
-                // document.add(address_tumbon);
-                // document.add(address_province);
-                // document.add(address_zipcode);
-
-                // document.add(planDetail);
-                // document.add(plan_name);
-                // document.add(plan_desc);
-                // document.add(plan_price);
-                // document.add(plan_coverage);
-                // document.add(start);
-                // document.add(end);
+                document.add(firstName);
+                document.add(lastName);
+                document.add(addressDetail);
+                document.add(address);
+                document.add(subDistrict);
+                document.add(district);
+                document.add(province);
+                document.add(zipCode);
+                document.add(identity);
+                document.add(phone);
+                document.add(email);
+                document.add(phone);
+                document.add(dob);
+                document.add(premium);
+                document.add(startDate);
+                document.add(endDate);
+                document.add(benefiaial);
+                // document.add(orderStatus);
 
                 document.close();
                
