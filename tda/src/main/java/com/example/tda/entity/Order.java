@@ -12,7 +12,7 @@ public class Order {
     private Integer id;
 
     @Column
-    (name = "agent_id" ,nullable=false)
+    (name = "agent_id")
     private Integer agentId;
 
     @Column(name = "packageId")

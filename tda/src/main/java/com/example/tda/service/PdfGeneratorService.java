@@ -1,7 +1,10 @@
 package com.example.tda.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+
 // import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class PdfGeneratorService {
         public void export(HttpServletResponse response, Order order) throws DocumentException, IOException {
                 Document document = new Document(PageSize.A4);
 
-                PdfWriter.getInstance(document, outputStream);
+                PdfWriter.getInstance(document, response.getOutputStream());
                 document.open();
                 // Font size for Header
                 Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
@@ -125,3 +128,4 @@ public class PdfGeneratorService {
                
         }
 }
+
