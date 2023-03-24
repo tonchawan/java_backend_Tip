@@ -2,10 +2,12 @@ package com.example.tda.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "packages")
 public class Packages {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,18 @@ public class Packages {
     @Column(name = "title")
     private String title;
 
-    public Packages(){}
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "packages")
+    // private List<Order> orderList ;
+
+    // public List<Order> getOrderList() {
+	// 	return orderList;
+	// }
+
+	// public void setOrderList(List<Order> orderList) {
+	// 	this.orderList = orderList;
+	// }
+
+	public Packages(){}
 
     public String getPremium() {
         return premium;

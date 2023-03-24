@@ -134,24 +134,13 @@ public class EmailService {
 			 Paragraph zipCode = new Paragraph(
 							 "Zip Code :  " + order.getZipCode() + Chunk.NEWLINE,
 							 fontNormal);
-			 // Paragraph address_zipcode = new Paragraph(
-			 //                 "Zipcode :  " + order.getAddress_zipcode() + Chunk.NEWLINE,
-			 //                 fontNormal);
 
-			 // Paragraph planDetail = new Paragraph("Plan Detail", fontTitle);
-
-			 // Paragraph plan_name = new Paragraph("Plan :  " + order.getPlan().getName() + Chunk.NEWLINE, fontNormal);
-
-			 // Paragraph plan_desc = new Paragraph("Description :  " + order.getPlan().getDesc() + Chunk.NEWLINE,
-			 //                 fontNormal);
 			 Paragraph premium = new Paragraph("Price :  " + packages.getPremium()+ Chunk.NEWLINE,
 							 fontNormal);
 
 			 Paragraph benefiaial = new Paragraph("Beneficial :  " + order.getBenefiaial()+ Chunk.NEWLINE,
 							 fontNormal);
 
-			 // Paragraph plan_coverage = new Paragraph("Coverage :  " + order.getPlan().getCoverage() + Chunk.NEWLINE,
-			 //                 fontNormal);
 			 Paragraph startDate = new Paragraph("Start Date :  " + order.getStartDate() + Chunk.NEWLINE,
 							 fontNormal);
 			 Paragraph endDate = new Paragraph("End Date :  " + order.getEndDate() + Chunk.NEWLINE,
@@ -177,13 +166,11 @@ public class EmailService {
 			 document.add(startDate);
 			 document.add(endDate);
 			 document.add(benefiaial);
-			 // document.add(orderStatus);
 
 			 document.close();
 
-			
-
-			byte[] pdfBytes = outputStream.toByteArray();
+	 
+			 byte[] pdfBytes = outputStream.toByteArray();
 
 
 			 // Create a DataSource with the PDF content

@@ -81,14 +81,14 @@ public class RegisterController {
             if (data.get("prefix") != null) {
                 user.setPrefix(data.get("prefix"));
             }
-            if (data.get("name") != null) {
-                user.setFirstName(data.get("name"));
+            if (data.get("firstName") != null) {
+                user.setFirstName(data.get("firstName"));
             }
-            if (data.get("lastname") != null) {
-                user.setLastName(data.get("lastname"));
+            if (data.get("lastName") != null) {
+                user.setLastName(data.get("lastName"));
             }
-            if (data.get("sub_district") != null) {
-                user.setSubDistrict(data.get("sub_district"));
+            if (data.get("subDistrict") != null) {
+                user.setSubDistrict(data.get("subDistrict"));
             }
             if (data.get("district") != null) {
                 user.setDistrict(data.get("district"));

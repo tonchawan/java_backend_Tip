@@ -75,16 +75,7 @@ public class PdfGeneratorService {
                 Paragraph zipCode = new Paragraph(
                                 "Zip Code :  " + order.getZipCode() + Chunk.NEWLINE,
                                 fontNormal);
-                // Paragraph address_zipcode = new Paragraph(
-                //                 "Zipcode :  " + order.getAddress_zipcode() + Chunk.NEWLINE,
-                //                 fontNormal);
 
-                // Paragraph planDetail = new Paragraph("Plan Detail", fontTitle);
-
-                // Paragraph plan_name = new Paragraph("Plan :  " + order.getPlan().getName() + Chunk.NEWLINE, fontNormal);
-
-                // Paragraph plan_desc = new Paragraph("Description :  " + order.getPlan().getDesc() + Chunk.NEWLINE,
-                //                 fontNormal);
                 Paragraph premium = new Paragraph("Price :  " + packages.getPremium()+ Chunk.NEWLINE,
                                 fontNormal);
 
@@ -118,7 +109,6 @@ public class PdfGeneratorService {
                 document.add(startDate);
                 document.add(endDate);
                 document.add(benefiaial);
-                // document.add(orderStatus);
 
                 document.close();
                

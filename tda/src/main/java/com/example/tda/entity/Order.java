@@ -2,6 +2,7 @@ package com.example.tda.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -70,6 +71,13 @@ public class Order {
     @Column(name = "order_status")
     private Integer orderStatus;
 
+    // @OneToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name= "package_id")
+    // private Packages packages;
+
+
+
+
     // public Order(Integer agentId, Integer packageId, String prefix, String firstName, String lastName, String identity,
     //         String address, String subDistrict, String district, String province, String zipCode, String phone,
     //         String email, String dob, String startDate, String endDate,
@@ -94,7 +102,15 @@ public class Order {
     //     this.orderStatus = orderStatus;
     // }
 
-    public Order() {
+    // public Packages getPackages() {
+	// 	return packages;
+	// }
+
+	// public void setPackages(Packages packages) {
+	// 	this.packages = packages;
+	// }
+
+	public Order() {
         super();
     }
 
