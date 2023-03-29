@@ -20,7 +20,7 @@ public class Order {
     (name = "agent_id")
     private Integer agentId;
 
-    @Column(name = "packageId")
+    @Column(name = "package_id")
     private Integer packageId;
 
     @Column(name = "prefix")
@@ -71,6 +71,9 @@ public class Order {
     @Column(name = "order_status")
     private Integer orderStatus;
 
+    @ManyToOne
+    private Packages packages;
+
     // @OneToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name= "package_id")
     // private Packages packages;
@@ -110,7 +113,15 @@ public class Order {
 	// 	this.packages = packages;
 	// }
 
-	public Order() {
+	public Packages getPackages() {
+        return packages;
+    }
+
+    public void setPackages(Packages packages) {
+        this.packages = packages;
+    }
+
+    public Order() {
         super();
     }
 

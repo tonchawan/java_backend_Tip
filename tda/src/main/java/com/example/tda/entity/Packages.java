@@ -23,8 +23,7 @@ public class Packages {
     @Column(name = "title")
     private String title;
 
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "packages")
-    // private List<Order> orderList ;
+
 
     // public List<Order> getOrderList() {
 	// 	return orderList;

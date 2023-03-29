@@ -75,6 +75,7 @@ public class OrdersController {
     @PostMapping("/buy")
     public ResponseEntity<Order> order(@RequestBody Order order) {
         order.setOrderStatus(1); // Set the order status to 1
+        order.setPackages(packagesRepository.findById(order.getPackageId()).get());
         Date date1 = new Date();
         order.setUpdatedAt(date1);
         order.setCreatedAt(date1);
@@ -87,17 +88,20 @@ public class OrdersController {
     // Update order by id
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> putOrder(
-            @RequestBody HashMap<String, String> data,
+            @RequestBody HashMap<String, Object> data,
             @PathVariable("id") Integer id) {
+
+                
         try {
+            
             Optional<Order> opt = orderRepository.findById(id);
         System.out.println(data);
             Order user = opt.get();
             if (data.get("agentId") != null) {
-                user.setAgentId(Integer.parseInt( data.get("agentId")));
+                user.setAgentId(Integer.parseInt( data.get("agentId").toString()));
             }
             if (data.get("packageId") != null) {
-                user.setPackageId(Integer.parseInt( data.get("packageId")));
+                user.setPackages(packagesRepository.findById (Integer.parseInt(data.get("packageId").toString())).get());
             }
             if (data.get("prefix") != null) {
                 user.setPrefix(data.get("prefix").toString());
@@ -152,6 +156,8 @@ public class OrdersController {
             }
             user.setUpdatedAt(new Date());
             orderRepository.save(user);
+            Packages packages = packagesRepository.findById(user.getPackageId()).get();
+            emailService.sendMailWithAttachment("tonchawan@hotmail.com", "Your Package", "Thankyou for purchase","y",user,packages );
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
@@ -163,6 +169,7 @@ public class OrdersController {
      @PostMapping("/draft")
      public ResponseEntity<Order> draft(@RequestBody Order order) {
         order.setOrderStatus(0); // Set the order status to 0
+        order.setPackages(packagesRepository.findById(order.getPackageId()).get());
         Date date1 = new Date();
         order.setUpdatedAt(date1);
         order.setCreatedAt(date1);
@@ -174,16 +181,16 @@ public class OrdersController {
     // Update draft (user the same method as update order )
     @RequestMapping(value = "/draft/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> putDraf(
-        @RequestBody HashMap<String, String> data,
+        @RequestBody HashMap<String, Object> data,
         @PathVariable("id") Integer id) {
     try {
         Optional<Order> opt = orderRepository.findById(id);
         Order user = opt.get();
         if (data.get("agentId") != null) {
-            user.setAgentId(Integer.parseInt( data.get("agentId")));
+            user.setAgentId(Integer.parseInt( data.get("agentId").toString()));
         }
         if (data.get("packageId") != null) {
-            user.setPackageId(Integer.parseInt( data.get("packageId")));
+            user.setPackages(packagesRepository.findById (Integer.parseInt(data.get("packageId").toString())).get());
         }
         if (data.get("prefix") != null) {
             user.setPrefix(data.get("prefix").toString());
